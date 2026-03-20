@@ -24,8 +24,9 @@ export class SaveManager {
     const data = this.load();
     if (!data.collectedVehicles.includes(vehicleId)) {
       data.collectedVehicles.push(vehicleId);
-      this.save(data);
     }
+    data.catchCounts[vehicleId] = (data.catchCounts[vehicleId] ?? 0) + 1;
+    this.save(data);
   }
 
   isCollected(vehicleId: VehicleId): boolean {
@@ -37,13 +38,17 @@ export class SaveManager {
   }
 
   private defaultData(): SaveData {
-    return { collectedVehicles: [] };
+    return { collectedVehicles: [], catchCounts: {} };
   }
 
   private isValid(data: unknown): data is SaveData {
     if (typeof data !== 'object' || data === null) return false;
     const d = data as Record<string, unknown>;
     if (!Array.isArray(d.collectedVehicles)) return false;
+    // Migrate old data without catchCounts
+    if (!d.catchCounts || typeof d.catchCounts !== 'object') {
+      d.catchCounts = {};
+    }
     return d.collectedVehicles.every((v: unknown) => typeof v === 'string');
   }
 }

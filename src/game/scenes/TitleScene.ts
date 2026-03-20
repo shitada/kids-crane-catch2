@@ -140,7 +140,7 @@ export class TitleScene implements Scene {
       this.audioManager.ensureResumed();
       this.sfx.play('buttonTap');
       const data = this.saveManager.load();
-      this.encyclopediaOverlay.show(data.collectedVehicles);
+      this.encyclopediaOverlay.show(data.collectedVehicles, data.catchCounts);
     });
     this.overlay.appendChild(encBtn);
 

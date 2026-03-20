@@ -13,6 +13,7 @@ export class EncyclopediaOverlay {
   private overlay: HTMLDivElement;
   private sfx: SFXGenerator;
   private collectedIds: VehicleId[] = [];
+  private catchCounts: Record<string, number> = {};
   private selectedCategory = '';
 
   // 3D preview for detail modal
@@ -50,8 +51,9 @@ export class EncyclopediaOverlay {
     this._onClose = cb;
   }
 
-  show(collectedIds: VehicleId[]): void {
+  show(collectedIds: VehicleId[], catchCounts: Record<string, number> = {}): void {
     this.collectedIds = collectedIds;
+    this.catchCounts = catchCounts;
     this.selectedCategory = MACHINES[0]?.id ?? '';
     this.overlay.style.display = 'flex';
     this.buildContent();
@@ -161,6 +163,7 @@ export class EncyclopediaOverlay {
         card.innerHTML = `
           <div style="font-size: 2.2rem;">${entry.emoji}</div>
           <div style="color: #fff; font-size: 0.85rem; font-weight: 700; margin-top: 0.3rem;">${entry.name}</div>
+          <div style="color: #FFD700; font-size: 0.7rem; margin-top: 0.15rem;">×${this.catchCounts[entry.id] ?? 0}</div>
         `;
         card.addEventListener('click', () => this.showDetail(entry.id));
         card.addEventListener('pointerenter', () => { card.style.transform = 'scale(1.05)'; });
@@ -268,6 +271,18 @@ export class EncyclopediaOverlay {
       margin-bottom: 0.5rem;
     `;
     card.appendChild(name);
+
+    // Catch count
+    const count = this.catchCounts[entry.id] ?? 0;
+    const countEl = document.createElement('p');
+    countEl.textContent = `つかんだ かいすう: ${count} かい`;
+    countEl.style.cssText = `
+      color: #FFD700;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    `;
+    card.appendChild(countEl);
 
     // Trivia
     const trivia = document.createElement('p');

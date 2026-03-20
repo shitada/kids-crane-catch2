@@ -38,7 +38,7 @@ export class EncyclopediaScene implements Scene {
     this.encyclopediaOverlay.onClose = () => {
       this.sceneManager.requestTransition('title');
     };
-    this.encyclopediaOverlay.show(data.collectedVehicles);
+    this.encyclopediaOverlay.show(data.collectedVehicles, data.catchCounts);
   }
 
   update(_deltaTime: number): void {}
