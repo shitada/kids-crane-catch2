@@ -1,16 +1,19 @@
 import * as THREE from 'three';
 import type { VehicleId } from '../types';
-import { VEHICLE_ENCYCLOPEDIA } from '../game/config/VehicleEncyclopedia';
+import { ALL_ENCYCLOPEDIA, getAllEntries } from '../game/config/VehicleEncyclopedia';
+import { MACHINES } from '../game/config/MachineConfig';
 import { createVehicleModel } from '../game/entities/vehicles/VehicleFactory';
 import type { SFXGenerator } from '../game/audio/SFXGenerator';
+import type { EncyclopediaEntry } from '../types';
 
 /**
- * 図鑑オーバーレイ（カテゴリグリッド + 詳細モーダル）
+ * 図鑑オーバーレイ（カテゴリタブ + グリッド + 詳細モーダル）
  */
 export class EncyclopediaOverlay {
   private overlay: HTMLDivElement;
   private sfx: SFXGenerator;
   private collectedIds: VehicleId[] = [];
+  private selectedCategory = '';
 
   // 3D preview for detail modal
   private previewRenderer: THREE.WebGLRenderer | null = null;
@@ -49,6 +52,7 @@ export class EncyclopediaOverlay {
 
   show(collectedIds: VehicleId[]): void {
     this.collectedIds = collectedIds;
+    this.selectedCategory = MACHINES[0]?.id ?? '';
     this.overlay.style.display = 'flex';
     this.buildContent();
   }
@@ -64,25 +68,68 @@ export class EncyclopediaOverlay {
 
     // Title
     const title = document.createElement('h1');
-    title.textContent = '🚗 のりもの ずかん';
+    title.textContent = '� ずかん';
     title.style.cssText = `
       color: #FFD700;
       font-size: 2rem;
       font-weight: 900;
       text-shadow: 0 3px 6px rgba(0,0,0,0.5);
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     `;
     this.overlay.appendChild(title);
 
-    // Progress
+    // Total progress
+    const allEntries = getAllEntries();
+    const totalCollected = allEntries.filter(e => this.collectedIds.includes(e.id)).length;
     const progress = document.createElement('p');
-    progress.textContent = `あつめた: ${this.collectedIds.length} / ${VEHICLE_ENCYCLOPEDIA.length}`;
-    progress.style.cssText = `
-      color: #fff;
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-    `;
+    progress.textContent = `ぜんぶ: ${totalCollected} / ${allEntries.length}`;
+    progress.style.cssText = 'color: #fff; font-size: 1rem; margin-bottom: 0.8rem;';
     this.overlay.appendChild(progress);
+
+    // Category tabs
+    const tabBar = document.createElement('div');
+    tabBar.style.cssText = `
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
+      max-width: 600px;
+      width: 100%;
+    `;
+
+    for (const machine of MACHINES) {
+      const tab = document.createElement('button');
+      const colorHex = '#' + machine.themeColor.toString(16).padStart(6, '0');
+      const isActive = machine.id === this.selectedCategory;
+      const catEntries = ALL_ENCYCLOPEDIA[machine.id] ?? [];
+      const catCollected = catEntries.filter(e => this.collectedIds.includes(e.id)).length;
+
+      tab.textContent = `${machine.emoji} ${machine.name} ${catCollected}/${catEntries.length}`;
+      tab.style.cssText = `
+        background: ${isActive ? colorHex : 'rgba(255,255,255,0.1)'};
+        border: 2px solid ${colorHex};
+        border-radius: 1.5rem;
+        padding: 0.4rem 0.8rem;
+        color: #fff;
+        font-family: 'Zen Maru Gothic', sans-serif;
+        font-size: clamp(0.7rem, 2vw, 0.9rem);
+        font-weight: 700;
+        cursor: pointer;
+        touch-action: manipulation;
+        transition: all 0.2s;
+      `;
+      tab.addEventListener('click', () => {
+        this.selectedCategory = machine.id;
+        this.buildContent();
+      });
+      tabBar.appendChild(tab);
+    }
+    this.overlay.appendChild(tabBar);
+
+    // Current category entries
+    const entries = ALL_ENCYCLOPEDIA[this.selectedCategory] ?? [];
+    const currentMachine = MACHINES.find(m => m.id === this.selectedCategory);
 
     // Grid
     const grid = document.createElement('div');
@@ -95,7 +142,7 @@ export class EncyclopediaOverlay {
       margin-bottom: 1.5rem;
     `;
 
-    for (const entry of VEHICLE_ENCYCLOPEDIA) {
+    for (const entry of entries) {
       const isUnlocked = this.collectedIds.includes(entry.id);
       const card = document.createElement('div');
 
@@ -162,7 +209,8 @@ export class EncyclopediaOverlay {
   }
 
   private showDetail(id: VehicleId): void {
-    const entry = VEHICLE_ENCYCLOPEDIA.find((e: { id: string }) => e.id === id);
+    const allEntries = getAllEntries();
+    const entry = allEntries.find((e: EncyclopediaEntry) => e.id === id);
     if (!entry) return;
 
     // Detail modal overlay

@@ -19,6 +19,7 @@ export class SFXGenerator {
       case 'buttonTap': this.playButtonTap(ctx, gain); break;
       case 'drop': this.playDrop(ctx, gain); break;
       case 'itemDrop': this.playItemDrop(ctx, gain); break;
+      // のりもの
       case 'shinkansen': this.playShinkansen(ctx, gain); break;
       case 'airplane': this.playAirplane(ctx, gain); break;
       case 'bus': this.playBus(ctx, gain); break;
@@ -27,7 +28,95 @@ export class SFXGenerator {
       case 'helicopter': this.playHelicopter(ctx, gain); break;
       case 'rocket': this.playRocket(ctx, gain); break;
       case 'ship': this.playShip(ctx, gain); break;
+      // うみのいきもの
+      case 'whale': this.playTone(ctx, gain, [120, 80], 'sine', 1.0); break;
+      case 'dolphin': this.playTone(ctx, gain, [1200, 800, 1400], 'sine', 0.8); break;
+      case 'clownfish': this.playTone(ctx, gain, [600, 700, 600], 'sine', 0.5); break;
+      case 'octopus': this.playTone(ctx, gain, [300, 200, 150], 'sine', 0.6); break;
+      case 'seaTurtle': this.playTone(ctx, gain, [200, 250, 200], 'triangle', 0.8); break;
+      case 'jellyfish': this.playTone(ctx, gain, [800, 1000, 800], 'sine', 0.7); break;
+      case 'manta': this.playTone(ctx, gain, [150, 200, 150], 'triangle', 0.9); break;
+      case 'seahorse': this.playTone(ctx, gain, [500, 600, 500], 'sine', 0.5); break;
+      // こっき
+      case 'flagJapan': this.playFanfare(ctx, gain, [523, 659, 784]); break;
+      case 'flagUSA': this.playFanfare(ctx, gain, [392, 523, 659]); break;
+      case 'flagBrazil': this.playFanfare(ctx, gain, [440, 554, 659]); break;
+      case 'flagFrance': this.playFanfare(ctx, gain, [349, 440, 523]); break;
+      case 'flagChina': this.playFanfare(ctx, gain, [392, 494, 587]); break;
+      case 'flagAustralia': this.playFanfare(ctx, gain, [330, 440, 554]); break;
+      case 'flagIndia': this.playFanfare(ctx, gain, [294, 392, 494]); break;
+      case 'flagKorea': this.playFanfare(ctx, gain, [370, 466, 554]); break;
+      // がっき
+      case 'piano': this.playChord(ctx, gain, [262, 330, 392], 'sine'); break;
+      case 'guitar': this.playChord(ctx, gain, [330, 440, 554], 'triangle'); break;
+      case 'taiko': this.playTone(ctx, gain, [100, 60], 'sine', 0.5); break;
+      case 'trumpet': this.playFanfare(ctx, gain, [523, 659, 784, 1047]); break;
+      case 'violin': this.playChord(ctx, gain, [440, 554, 659], 'sawtooth'); break;
+      case 'harmonica': this.playChord(ctx, gain, [523, 659, 784], 'square'); break;
+      case 'cymbal': this.playTone(ctx, gain, [2000, 1500, 800], 'sawtooth', 0.8); break;
+      case 'recorder': this.playTone(ctx, gain, [784, 880, 784, 659], 'sine', 0.8); break;
+      // きょうりゅう
+      case 'trex': this.playTone(ctx, gain, [80, 60, 40], 'sawtooth', 1.0); break;
+      case 'triceratops': this.playTone(ctx, gain, [150, 120, 100], 'triangle', 0.8); break;
+      case 'stegosaurus': this.playTone(ctx, gain, [200, 180, 160], 'triangle', 0.7); break;
+      case 'pteranodon': this.playTone(ctx, gain, [600, 800, 600], 'sine', 0.8); break;
+      case 'brachiosaurus': this.playTone(ctx, gain, [100, 120, 80], 'sine', 1.0); break;
+      case 'velociraptor': this.playTone(ctx, gain, [500, 700, 500, 700], 'sawtooth', 0.6); break;
+      case 'ankylosaurus': this.playTone(ctx, gain, [120, 80, 120], 'triangle', 0.8); break;
+      case 'parasaurolophus': this.playTone(ctx, gain, [200, 350, 200], 'sine', 1.2); break;
     }
+  }
+
+  /** 汎用トーン再生（周波数配列を順に再生） */
+  private playTone(ctx: AudioContext, dest: GainNode, freqs: number[], type: OscillatorType, duration: number): void {
+    const t = ctx.currentTime;
+    const step = duration / freqs.length;
+    freqs.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      g.gain.setValueAtTime(0.2, t + i * step);
+      g.gain.linearRampToValueAtTime(0, t + (i + 1) * step);
+      osc.connect(g);
+      g.connect(dest);
+      osc.start(t + i * step);
+      osc.stop(t + (i + 1) * step);
+    });
+  }
+
+  /** 和音再生 */
+  private playChord(ctx: AudioContext, dest: GainNode, freqs: number[], type: OscillatorType): void {
+    const t = ctx.currentTime;
+    for (const freq of freqs) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      g.gain.setValueAtTime(0.12, t);
+      g.gain.linearRampToValueAtTime(0, t + 0.8);
+      osc.connect(g);
+      g.connect(dest);
+      osc.start(t);
+      osc.stop(t + 0.8);
+    }
+  }
+
+  /** ファンファーレ（音階を上がる） */
+  private playFanfare(ctx: AudioContext, dest: GainNode, notes: number[]): void {
+    const t = ctx.currentTime;
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      g.gain.setValueAtTime(0.2, t + i * 0.15);
+      g.gain.linearRampToValueAtTime(0, t + i * 0.15 + 0.3);
+      osc.connect(g);
+      g.connect(dest);
+      osc.start(t + i * 0.15);
+      osc.stop(t + i * 0.15 + 0.3);
+    });
   }
 
   private playCatchSuccess(ctx: AudioContext, dest: GainNode): void {

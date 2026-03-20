@@ -6,8 +6,10 @@ import { GAME_SETTINGS } from '../config/GameSettings';
  */
 export class CraneMachine {
   readonly group = new THREE.Group();
+  private frameColor: number;
 
-  constructor() {
+  constructor(frameColor?: number) {
+    this.frameColor = frameColor ?? 0x6622aa;
     this.buildCase();
     this.buildGlass();
     this.buildRails();
@@ -21,7 +23,7 @@ export class CraneMachine {
     const hw = GAME_SETTINGS.machineHalfWidth;
     const hd = GAME_SETTINGS.machineHalfDepth;
     const h = GAME_SETTINGS.craneRailHeight + 1.0;
-    const frameMat = new THREE.MeshPhongMaterial({ color: 0x6622aa });
+    const frameMat = new THREE.MeshPhongMaterial({ color: this.frameColor });
 
     // 4本の柱
     const pillarGeo = new THREE.BoxGeometry(0.3, h, 0.3);
@@ -45,7 +47,8 @@ export class CraneMachine {
 
     // 底板（筐体の土台）
     const baseGeo = new THREE.BoxGeometry(hw * 2 + 0.6, 0.3, hd * 2 + 0.6);
-    const baseMat = new THREE.MeshPhongMaterial({ color: 0x4411aa });
+    const darkerColor = new THREE.Color(this.frameColor).multiplyScalar(0.6);
+    const baseMat = new THREE.MeshPhongMaterial({ color: darkerColor });
     const base = new THREE.Mesh(baseGeo, baseMat);
     base.position.set(0, -0.15, 0);
     this.group.add(base);

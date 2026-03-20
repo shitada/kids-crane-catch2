@@ -83,16 +83,21 @@ export class PlayScene implements Scene {
     this.caughtItems = [];
     this.dropItem = null;
 
+    // Lookup machine config
+    const machine = MACHINES.find(m => m.id === this.machineId);
+
     // Clear scene
     while (this.threeScene.children.length > 0) {
       this.threeScene.remove(this.threeScene.children[0]);
     }
 
     // Set up scene
-    this.threeScene.background = new THREE.Color(0x1a0a2e);
+    this.threeScene.background = new THREE.Color(machine?.bgColor ?? 0x1a0a2e);
 
-    // Lighting
-    this.threeScene.add(new THREE.AmbientLight(0x8866cc, 0.6));
+    // Lighting (tinted by theme)
+    const themeColor = machine?.themeColor ?? 0x8866cc;
+    this.threeScene.add(new THREE.AmbientLight(themeColor, 0.4));
+    this.threeScene.add(new THREE.AmbientLight(0xffffff, 0.3));
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(5, 10, 5);
     this.threeScene.add(dirLight);
@@ -100,8 +105,8 @@ export class PlayScene implements Scene {
     fillLight.position.set(-5, 3, -3);
     this.threeScene.add(fillLight);
 
-    // Crane machine
-    this.craneMachine = new CraneMachine();
+    // Crane machine (with theme color)
+    this.craneMachine = new CraneMachine(machine?.frameColor);
     this.threeScene.add(this.craneMachine.group);
 
     // Crane arm
@@ -110,7 +115,6 @@ export class PlayScene implements Scene {
     this.craneController = new CraneController(this.craneArm);
 
     // Items
-    const machine = MACHINES.find(m => m.id === this.machineId);
     if (machine) {
       this.itemPool.populate(machine.itemIds, this.threeScene);
     }

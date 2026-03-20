@@ -19,8 +19,9 @@ export interface Scene {
 // Crane states
 export type CraneState = 'IDLE' | 'MOVING' | 'DESCENDING' | 'GRABBING' | 'ASCENDING' | 'RETURNING' | 'DROPPING';
 
-// Vehicle IDs
+// Item IDs (all categories)
 export type VehicleId =
+  // のりもの
   | 'shinkansen'
   | 'airplane'
   | 'bus'
@@ -28,7 +29,43 @@ export type VehicleId =
   | 'excavator'
   | 'helicopter'
   | 'rocket'
-  | 'ship';
+  | 'ship'
+  // うみのいきもの
+  | 'whale'
+  | 'dolphin'
+  | 'clownfish'
+  | 'octopus'
+  | 'seaTurtle'
+  | 'jellyfish'
+  | 'manta'
+  | 'seahorse'
+  // こっき
+  | 'flagJapan'
+  | 'flagUSA'
+  | 'flagBrazil'
+  | 'flagFrance'
+  | 'flagChina'
+  | 'flagAustralia'
+  | 'flagIndia'
+  | 'flagKorea'
+  // がっき
+  | 'piano'
+  | 'guitar'
+  | 'taiko'
+  | 'trumpet'
+  | 'violin'
+  | 'harmonica'
+  | 'cymbal'
+  | 'recorder'
+  // きょうりゅう
+  | 'trex'
+  | 'triceratops'
+  | 'stegosaurus'
+  | 'pteranodon'
+  | 'brachiosaurus'
+  | 'velociraptor'
+  | 'ankylosaurus'
+  | 'parasaurolophus';
 
 // Machine category
 export interface MachineCategory {
@@ -37,6 +74,8 @@ export interface MachineCategory {
   emoji: string;
   description: string;
   themeColor: number;
+  bgColor: number;
+  frameColor: number;
   itemIds: VehicleId[];
 }
 
@@ -57,14 +96,21 @@ export type SFXType =
   | 'buttonTap'
   | 'drop'
   | 'itemDrop'
-  | 'shinkansen'
-  | 'airplane'
-  | 'bus'
-  | 'policeCar'
-  | 'excavator'
-  | 'helicopter'
-  | 'rocket'
-  | 'ship';
+  // のりもの
+  | 'shinkansen' | 'airplane' | 'bus' | 'policeCar'
+  | 'excavator' | 'helicopter' | 'rocket' | 'ship'
+  // うみのいきもの
+  | 'whale' | 'dolphin' | 'clownfish' | 'octopus'
+  | 'seaTurtle' | 'jellyfish' | 'manta' | 'seahorse'
+  // こっき
+  | 'flagJapan' | 'flagUSA' | 'flagBrazil' | 'flagFrance'
+  | 'flagChina' | 'flagAustralia' | 'flagIndia' | 'flagKorea'
+  // がっき
+  | 'piano' | 'guitar' | 'taiko' | 'trumpet'
+  | 'violin' | 'harmonica' | 'cymbal' | 'recorder'
+  // きょうりゅう
+  | 'trex' | 'triceratops' | 'stegosaurus' | 'pteranodon'
+  | 'brachiosaurus' | 'velociraptor' | 'ankylosaurus' | 'parasaurolophus';
 
 // Save data
 export interface SaveData {

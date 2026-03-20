@@ -8,8 +8,20 @@ import { createExcavator } from './Excavator';
 import { createHelicopter } from './Helicopter';
 import { createRocket } from './Rocket';
 import { createShip } from './Ship';
+import { createWhale } from '../sea/Whale';
+import { createDolphin } from '../sea/Dolphin';
+import { createClownfish } from '../sea/Clownfish';
+import { createOctopus } from '../sea/Octopus';
+import { createSeaTurtle } from '../sea/SeaTurtle';
+import { createJellyfish } from '../sea/Jellyfish';
+import { createManta } from '../sea/Manta';
+import { createSeahorse } from '../sea/Seahorse';
+import { createFlagJapan, createFlagUSA, createFlagBrazil, createFlagFrance, createFlagChina, createFlagAustralia, createFlagIndia, createFlagKorea } from '../flags/Flags';
+import { createPiano, createGuitar, createTaiko, createTrumpet, createViolin, createHarmonica, createCymbal, createRecorder } from '../instruments/Instruments';
+import { createTrex, createTriceratops, createStegosaurus, createPteranodon, createBrachiosaurus, createVelociraptor, createAnkylosaurus, createParasaurolophus } from '../dinosaurs/Dinosaurs';
 
 const CREATORS: Record<VehicleId, () => THREE.Group> = {
+  // のりもの
   shinkansen: createShinkansen,
   airplane: createAirplane,
   bus: createBus,
@@ -18,6 +30,42 @@ const CREATORS: Record<VehicleId, () => THREE.Group> = {
   helicopter: createHelicopter,
   rocket: createRocket,
   ship: createShip,
+  // うみのいきもの
+  whale: createWhale,
+  dolphin: createDolphin,
+  clownfish: createClownfish,
+  octopus: createOctopus,
+  seaTurtle: createSeaTurtle,
+  jellyfish: createJellyfish,
+  manta: createManta,
+  seahorse: createSeahorse,
+  // こっき
+  flagJapan: createFlagJapan,
+  flagUSA: createFlagUSA,
+  flagBrazil: createFlagBrazil,
+  flagFrance: createFlagFrance,
+  flagChina: createFlagChina,
+  flagAustralia: createFlagAustralia,
+  flagIndia: createFlagIndia,
+  flagKorea: createFlagKorea,
+  // がっき
+  piano: createPiano,
+  guitar: createGuitar,
+  taiko: createTaiko,
+  trumpet: createTrumpet,
+  violin: createViolin,
+  harmonica: createHarmonica,
+  cymbal: createCymbal,
+  recorder: createRecorder,
+  // きょうりゅう
+  trex: createTrex,
+  triceratops: createTriceratops,
+  stegosaurus: createStegosaurus,
+  pteranodon: createPteranodon,
+  brachiosaurus: createBrachiosaurus,
+  velociraptor: createVelociraptor,
+  ankylosaurus: createAnkylosaurus,
+  parasaurolophus: createParasaurolophus,
 };
 
 export function createVehicleModel(id: VehicleId): THREE.Group {
