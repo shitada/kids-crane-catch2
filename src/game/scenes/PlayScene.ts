@@ -17,7 +17,6 @@ import { VirtualJoystick } from '../../ui/VirtualJoystick';
 import { DropButton } from '../../ui/DropButton';
 import { HUD } from '../../ui/HUD';
 import { createVehicleModel } from '../entities/vehicles/VehicleFactory';
-import { BGMGenerator } from '../audio/BGMGenerator';
 
 export class PlayScene implements Scene {
   private threeScene = new THREE.Scene();
@@ -39,7 +38,6 @@ export class PlayScene implements Scene {
   private joystick: VirtualJoystick;
   private dropButton: DropButton;
   private hud: HUD;
-  private bgm: BGMGenerator;
 
   // Game state
   private attemptsRemaining = GAME_SETTINGS.maxAttempts;
@@ -74,7 +72,6 @@ export class PlayScene implements Scene {
     this.joystick = new VirtualJoystick();
     this.dropButton = new DropButton();
     this.hud = new HUD();
-    this.bgm = new BGMGenerator(audioManager);
   }
 
   enter(context: SceneContext): void {
@@ -146,7 +143,7 @@ export class PlayScene implements Scene {
 
     this.dropButton.onDrop = () => this.handleDrop();
 
-    this.bgm.start('play');
+    this.audioManager.startBGM('play');
 
     // プレイ回数カウント
     this.saveManager.incrementPlays();
@@ -322,7 +319,7 @@ export class PlayScene implements Scene {
   }
 
   exit(): void {
-    this.bgm.stop();
+    this.audioManager.stopBGM();
     this.joystick.unmount();
     this.dropButton.unmount();
     this.hud.unmount();

@@ -4,7 +4,6 @@ import type { SceneManager } from '../SceneManager';
 import type { AudioManager } from '../audio/AudioManager';
 import type { SaveManager } from '../storage/SaveManager';
 import type { SFXGenerator } from '../audio/SFXGenerator';
-import { BGMGenerator } from '../audio/BGMGenerator';
 import { EncyclopediaOverlay } from '../../ui/EncyclopediaOverlay';
 
 export class TitleScene implements Scene {
@@ -14,7 +13,6 @@ export class TitleScene implements Scene {
   private audioManager: AudioManager;
   private saveManager: SaveManager;
   private sfx: SFXGenerator;
-  private bgm: BGMGenerator;
   private overlay: HTMLDivElement | null = null;
   private resetBtn: HTMLButtonElement | null = null;
   private encyclopediaOverlay: EncyclopediaOverlay;
@@ -26,7 +24,6 @@ export class TitleScene implements Scene {
     this.audioManager = audioManager;
     this.saveManager = saveManager;
     this.sfx = sfx;
-    this.bgm = new BGMGenerator(audioManager);
     this.encyclopediaOverlay = new EncyclopediaOverlay(sfx);
 
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -81,7 +78,7 @@ export class TitleScene implements Scene {
   enter(_context: SceneContext): void {
     this.time = 0;
     this.buildUI();
-    this.bgm.start('title');
+    this.audioManager.startBGM('title');
   }
 
   private buildUI(): void {
@@ -220,7 +217,7 @@ export class TitleScene implements Scene {
   }
 
   exit(): void {
-    this.bgm.stop();
+    this.audioManager.stopBGM();
     this.encyclopediaOverlay.unmount();
     if (this.overlay) {
       this.overlay.remove();

@@ -4,7 +4,6 @@ import type { SceneManager } from '../SceneManager';
 import type { SaveManager } from '../storage/SaveManager';
 import type { SFXGenerator } from '../audio/SFXGenerator';
 import type { AudioManager } from '../audio/AudioManager';
-import { BGMGenerator } from '../audio/BGMGenerator';
 import { EncyclopediaOverlay } from '../../ui/EncyclopediaOverlay';
 
 export class EncyclopediaScene implements Scene {
@@ -13,14 +12,14 @@ export class EncyclopediaScene implements Scene {
   private sceneManager: SceneManager;
   private saveManager: SaveManager;
   private sfx: SFXGenerator;
-  private bgm: BGMGenerator;
+  private audioManager: AudioManager;
   private encyclopediaOverlay: EncyclopediaOverlay;
 
   constructor(sceneManager: SceneManager, saveManager: SaveManager, sfx: SFXGenerator, audioManager: AudioManager) {
     this.sceneManager = sceneManager;
     this.saveManager = saveManager;
     this.sfx = sfx;
-    this.bgm = new BGMGenerator(audioManager);
+    this.audioManager = audioManager;
     this.encyclopediaOverlay = new EncyclopediaOverlay(sfx);
 
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -32,7 +31,7 @@ export class EncyclopediaScene implements Scene {
   }
 
   enter(_context: SceneContext): void {
-    this.bgm.start('title');
+    this.audioManager.startBGM('title');
     const data = this.saveManager.load();
     this.encyclopediaOverlay.mount(document.body);
     this.encyclopediaOverlay.onClose = () => {
@@ -44,7 +43,7 @@ export class EncyclopediaScene implements Scene {
   update(_deltaTime: number): void {}
 
   exit(): void {
-    this.bgm.stop();
+    this.audioManager.stopBGM();
     this.encyclopediaOverlay.hide();
     this.encyclopediaOverlay.unmount();
   }

@@ -6,7 +6,6 @@ import type { SFXGenerator } from '../audio/SFXGenerator';
 import type { SaveManager } from '../storage/SaveManager';
 import { VEHICLE_ENCYCLOPEDIA } from '../config/VehicleEncyclopedia';
 import { createVehicleModel } from '../entities/vehicles/VehicleFactory';
-import { BGMGenerator } from '../audio/BGMGenerator';
 
 export class ResultScene implements Scene {
   private scene = new THREE.Scene();
@@ -15,7 +14,6 @@ export class ResultScene implements Scene {
   private audioManager: AudioManager;
   private sfx: SFXGenerator;
   private saveManager: SaveManager;
-  private bgm: BGMGenerator;
   private overlay: HTMLDivElement | null = null;
   private models: THREE.Group[] = [];
   private time = 0;
@@ -25,7 +23,6 @@ export class ResultScene implements Scene {
     this.audioManager = audioManager;
     this.sfx = sfx;
     this.saveManager = saveManager;
-    this.bgm = new BGMGenerator(audioManager);
 
     this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
     this.camera.position.set(0, 2, 5);
@@ -63,7 +60,7 @@ export class ResultScene implements Scene {
     }
 
     this.buildUI(caughtItems);
-    this.bgm.start('result');
+    this.audioManager.startBGM('result');
   }
 
   private buildUI(caughtItems: VehicleId[]): void {
@@ -214,7 +211,7 @@ export class ResultScene implements Scene {
   }
 
   exit(): void {
-    this.bgm.stop();
+    this.audioManager.stopBGM();
     if (this.overlay) {
       this.overlay.remove();
       this.overlay = null;
