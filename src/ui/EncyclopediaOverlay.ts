@@ -106,8 +106,9 @@ export class EncyclopediaOverlay {
       const isActive = machine.id === this.selectedCategory;
       const catEntries = ALL_ENCYCLOPEDIA[machine.id] ?? [];
       const catCollected = catEntries.filter(e => this.collectedIds.includes(e.id)).length;
+      const catComplete = catCollected >= catEntries.length && catEntries.length > 0;
 
-      tab.textContent = `${machine.emoji} ${machine.name} ${catCollected}/${catEntries.length}`;
+      tab.textContent = `${machine.emoji} ${machine.name} ${catCollected}/${catEntries.length}${catComplete ? ' ✅' : ''}`;
       tab.style.cssText = `
         background: ${isActive ? colorHex : 'rgba(255,255,255,0.1)'};
         border: 2px solid ${colorHex};
@@ -160,10 +161,12 @@ export class EncyclopediaOverlay {
           box-shadow: 0 4px 12px rgba(0,0,0,0.3);
           transition: transform 0.2s;
         `;
+        const count = this.catchCounts[entry.id] ?? 0;
+        const badge = count >= 30 ? '🌟🌟🌟' : count >= 20 ? '🌟🌟' : count >= 10 ? '🌟' : '';
         card.innerHTML = `
           <div style="font-size: 2.2rem;">${entry.emoji}</div>
           <div style="color: #fff; font-size: 0.85rem; font-weight: 700; margin-top: 0.3rem;">${entry.name}</div>
-          <div style="color: #FFD700; font-size: 0.7rem; margin-top: 0.15rem;">×${this.catchCounts[entry.id] ?? 0}</div>
+          <div style="color: #FFD700; font-size: 0.7rem; margin-top: 0.15rem;">×${count}${badge ? ' ' + badge : ''}</div>
         `;
         card.addEventListener('click', () => this.showDetail(entry.id));
         card.addEventListener('pointerenter', () => { card.style.transform = 'scale(1.05)'; });

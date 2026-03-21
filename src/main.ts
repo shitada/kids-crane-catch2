@@ -73,8 +73,12 @@ window.addEventListener('resize', () => {
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     gameLoop.pause();
+    // バックグラウンド時にBGMを完全停止
+    audioManager.stopBGM();
   } else {
     gameLoop.resume();
     audioManager.ensureResumed();
+    // BGMをクリーンに再開
+    audioManager.resumeBGM();
   }
 });
