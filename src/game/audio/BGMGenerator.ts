@@ -10,6 +10,7 @@ export type BGMMode = 'title' | 'play' | 'result';
 export class BGMGenerator {
   private audioManager: AudioManager;
   private playing = false;
+  private currentMode: BGMMode = 'title';
   private timerId: ReturnType<typeof setTimeout> | null = null;
   private activeNodes: { osc: OscillatorNode; gain: GainNode }[] = [];
 
@@ -18,13 +19,13 @@ export class BGMGenerator {
   }
 
   start(mode: BGMMode = 'title'): void {
-    // 既に再生中なら一旦停止して重複を防ぐ
     this.stop();
     const ctx = this.audioManager.getContext();
     const dest = this.audioManager.getBGMGain();
     if (!ctx || !dest) return;
 
     this.playing = true;
+    this.currentMode = mode;
 
     if (mode === 'title') {
       this.playTitleBGM(ctx, dest);
@@ -55,7 +56,12 @@ export class BGMGenerator {
     const loopDur = chords.length * chordDur;
 
     const playLoop = () => {
-      if (!this.playing) return;
+      if (!this.playing || document.hidden) {
+        if (this.playing && document.hidden) {
+          this.timerId = setTimeout(playLoop, 500);
+        }
+        return;
+      }
       const time = ctx.currentTime + 0.05;
 
       for (let ci = 0; ci < chords.length; ci++) {
@@ -98,7 +104,12 @@ export class BGMGenerator {
     const loopDur = chords.length * chordDur;
 
     const playLoop = () => {
-      if (!this.playing) return;
+      if (!this.playing || document.hidden) {
+        if (this.playing && document.hidden) {
+          this.timerId = setTimeout(playLoop, 500);
+        }
+        return;
+      }
       const time = ctx.currentTime + 0.05;
 
       for (let ci = 0; ci < chords.length; ci++) {
@@ -139,7 +150,12 @@ export class BGMGenerator {
     const loopDur = chords.length * chordDur;
 
     const playLoop = () => {
-      if (!this.playing) return;
+      if (!this.playing || document.hidden) {
+        if (this.playing && document.hidden) {
+          this.timerId = setTimeout(playLoop, 500);
+        }
+        return;
+      }
       const time = ctx.currentTime + 0.05;
 
       for (let ci = 0; ci < chords.length; ci++) {
@@ -202,5 +218,13 @@ export class BGMGenerator {
       try { osc.stop(); } catch { /* already stopped */ }
     }
     this.activeNodes = [];
+  }
+
+  getCurrentMode(): BGMMode {
+    return this.currentMode;
+  }
+
+  isPlaying(): boolean {
+    return this.playing;
   }
 }

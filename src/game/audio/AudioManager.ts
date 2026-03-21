@@ -25,6 +25,12 @@ export class AudioManager {
     if (this.ctx?.state === 'suspended') {
       this.ctx.resume();
     }
+    // Safari復帰時にBGMを強制リセット（重複防止）
+    if (this.sharedBgm?.isPlaying()) {
+      const mode = this.sharedBgm.getCurrentMode();
+      this.sharedBgm.stop();
+      this.sharedBgm.start(mode);
+    }
   }
 
   /** 共有BGMを再生（単一インスタンスで重複防止） */
