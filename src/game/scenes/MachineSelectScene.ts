@@ -67,11 +67,11 @@ export class MachineSelectScene implements Scene {
     const cardContainer = document.createElement('div');
     cardContainer.style.cssText = `
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      max-width: 700px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+      max-width: 750px;
       width: 100%;
-      padding: 0 1rem;
+      padding: 0 0.8rem;
     `;
 
     for (const machine of MACHINES) {

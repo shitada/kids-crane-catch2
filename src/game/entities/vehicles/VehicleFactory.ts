@@ -20,6 +20,8 @@ import { createFlagJapan, createFlagUSA, createFlagBrazil, createFlagFrance, cre
 import { createPiano, createGuitar, createTaiko, createTrumpet, createViolin, createHarmonica, createCymbal, createRecorder } from '../instruments/Instruments';
 import { createTrex, createTriceratops, createStegosaurus, createPteranodon, createBrachiosaurus, createVelociraptor, createAnkylosaurus, createParasaurolophus } from '../dinosaurs/Dinosaurs';
 import { createBeetleKabuto, createBeetleKuwagata, createButterfly, createLadybug, createDragonfly, createGrasshopper, createFirefly, createMantis } from '../insects/Insects';
+import { createLion, createElephant, createGiraffe, createPanda, createRabbit, createPenguin, createCat, createDog } from '../animals/Animals';
+import { createCastle, createTorii, createFujisan, createSakuramochi, createKoinobori, createDaruma, createChochin, createManekiNeko } from '../japan/JapanCulture';
 
 const CREATORS: Record<VehicleId, () => THREE.Group> = {
   // のりもの
@@ -76,6 +78,24 @@ const CREATORS: Record<VehicleId, () => THREE.Group> = {
   grasshopper: createGrasshopper,
   firefly: createFirefly,
   mantis: createMantis,
+  // どうぶつ
+  lion: createLion,
+  elephant: createElephant,
+  giraffe: createGiraffe,
+  panda: createPanda,
+  rabbit: createRabbit,
+  penguin: createPenguin,
+  cat: createCat,
+  dog: createDog,
+  // にほんのぶんか
+  castle: createCastle,
+  torii: createTorii,
+  fujisan: createFujisan,
+  sakuramochi: createSakuramochi,
+  koinobori: createKoinobori,
+  daruma: createDaruma,
+  chochin: createChochin,
+  manekiNeko: createManekiNeko,
 };
 
 export function createVehicleModel(id: VehicleId): THREE.Group {

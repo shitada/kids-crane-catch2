@@ -73,6 +73,24 @@ export class SFXGenerator {
       case 'grasshopper': this.playTone(ctx, gain, [400, 500, 400, 500], 'square', 0.5); break;
       case 'firefly': this.playTone(ctx, gain, [1000, 1200, 1000], 'sine', 0.8); break;
       case 'mantis': this.playTone(ctx, gain, [300, 200, 300], 'sawtooth', 0.6); break;
+      // どうぶつ
+      case 'lion': this.playTone(ctx, gain, [100, 80, 60], 'sawtooth', 0.8); break;
+      case 'elephant': this.playTone(ctx, gain, [180, 150, 200], 'sine', 1.0); break;
+      case 'giraffe': this.playTone(ctx, gain, [300, 350, 300], 'sine', 0.6); break;
+      case 'panda': this.playTone(ctx, gain, [400, 350, 400], 'triangle', 0.5); break;
+      case 'rabbit': this.playTone(ctx, gain, [600, 700, 600], 'sine', 0.4); break;
+      case 'penguin': this.playTone(ctx, gain, [500, 600, 500, 400], 'sine', 0.6); break;
+      case 'cat': this.playTone(ctx, gain, [700, 800, 600], 'sine', 0.6); break;
+      case 'dog': this.playTone(ctx, gain, [300, 400, 300, 400], 'sawtooth', 0.5); break;
+      // にほんのぶんか
+      case 'castle': this.playFanfare(ctx, gain, [262, 330, 392, 523]); break;
+      case 'torii': this.playChord(ctx, gain, [262, 392, 523], 'sine'); break;
+      case 'fujisan': this.playTone(ctx, gain, [200, 300, 400, 500], 'sine', 1.0); break;
+      case 'sakuramochi': this.playTone(ctx, gain, [523, 659, 784], 'sine', 0.5); break;
+      case 'koinobori': this.playTone(ctx, gain, [400, 500, 600, 500], 'triangle', 0.7); break;
+      case 'daruma': this.playTone(ctx, gain, [200, 250, 200], 'sine', 0.6); break;
+      case 'chochin': this.playChord(ctx, gain, [330, 440, 554], 'triangle'); break;
+      case 'manekiNeko': this.playTone(ctx, gain, [600, 700, 800, 700], 'sine', 0.6); break;
     }
   }
 

@@ -74,7 +74,25 @@ export type VehicleId =
   | 'dragonfly'
   | 'grasshopper'
   | 'firefly'
-  | 'mantis';
+  | 'mantis'
+  // どうぶつ
+  | 'lion'
+  | 'elephant'
+  | 'giraffe'
+  | 'panda'
+  | 'rabbit'
+  | 'penguin'
+  | 'cat'
+  | 'dog'
+  // にほんのぶんか
+  | 'castle'
+  | 'torii'
+  | 'fujisan'
+  | 'sakuramochi'
+  | 'koinobori'
+  | 'daruma'
+  | 'chochin'
+  | 'manekiNeko';
 
 // Machine category
 export interface MachineCategory {
@@ -122,7 +140,13 @@ export type SFXType =
   | 'brachiosaurus' | 'velociraptor' | 'ankylosaurus' | 'parasaurolophus'
   // むし
   | 'beetleKabuto' | 'beetleKuwagata' | 'butterfly' | 'ladybug'
-  | 'dragonfly' | 'grasshopper' | 'firefly' | 'mantis';
+  | 'dragonfly' | 'grasshopper' | 'firefly' | 'mantis'
+  // どうぶつ
+  | 'lion' | 'elephant' | 'giraffe' | 'panda'
+  | 'rabbit' | 'penguin' | 'cat' | 'dog'
+  // にほんのぶんか
+  | 'castle' | 'torii' | 'fujisan' | 'sakuramochi'
+  | 'koinobori' | 'daruma' | 'chochin' | 'manekiNeko';
 // Save data
 export interface SaveData {
   collectedVehicles: VehicleId[];

@@ -72,6 +72,30 @@ export const INSECTS_ENCYCLOPEDIA: EncyclopediaEntry[] = [
   { id: 'mantis', name: 'カマキリ', emoji: '🦟', trivia: 'まえあしが カマの かたちを しているよ。えものを まちぶせ するのが とくいなハンターだよ！', themeColor: 0x55aa33, soundType: 'mantis' },
 ];
 
+/** どうぶつ */
+export const ANIMALS_ENCYCLOPEDIA: EncyclopediaEntry[] = [
+  { id: 'lion', name: 'ライオン', emoji: '🦁', trivia: 'ひゃくじゅうの おう！おすには りっぱな たてがみが あるよ。がおー！', themeColor: 0xcc8833, soundType: 'lion' },
+  { id: 'elephant', name: 'ゾウ', emoji: '🐘', trivia: 'りくの どうぶつで いちばん おおきいよ！ながい はなで みずを すうんだ！', themeColor: 0x888899, soundType: 'elephant' },
+  { id: 'giraffe', name: 'キリン', emoji: '🦒', trivia: 'せかいいち せが たかい どうぶつだよ。ながい くびで たかい はっぱを たべるんだ！', themeColor: 0xddaa44, soundType: 'giraffe' },
+  { id: 'panda', name: 'パンダ', emoji: '🐼', trivia: 'しろと くろの もようが かわいいね。ささの はっぱが だいすきなんだ！', themeColor: 0xffffff, soundType: 'panda' },
+  { id: 'rabbit', name: 'ウサギ', emoji: '🐰', trivia: 'ながい みみと ふわふわの しっぽが とくちょうだよ。ぴょんぴょん はねるよ！', themeColor: 0xeeeeee, soundType: 'rabbit' },
+  { id: 'penguin', name: 'ペンギン', emoji: '🐧', trivia: 'とべないけど およぎが とくい！さむい ところに すんでいるよ！', themeColor: 0x222233, soundType: 'penguin' },
+  { id: 'cat', name: 'ネコ', emoji: '🐱', trivia: 'にゃーと なくよ。じゆうきままな せいかくで、ひるねが だいすき！', themeColor: 0xdd8844, soundType: 'cat' },
+  { id: 'dog', name: 'イヌ', emoji: '🐶', trivia: 'わんわん！にんげんの いちばんの ともだちだよ。しっぽを ふって よろこぶよ！', themeColor: 0xaa7744, soundType: 'dog' },
+];
+
+/** にほんのぶんか */
+export const JAPAN_ENCYCLOPEDIA: EncyclopediaEntry[] = [
+  { id: 'castle', name: 'おしろ', emoji: '🏯', trivia: 'むかしの おさむらいさんが すんでいた おおきな たてものだよ。てんしゅかくが かっこいいね！', themeColor: 0xeeeedd, soundType: 'castle' },
+  { id: 'torii', name: 'とりい', emoji: '⛩️', trivia: 'じんじゃの いりぐちに ある あかい もんだよ。かみさまの せかいへの いりぐちなんだ！', themeColor: 0xcc2211, soundType: 'torii' },
+  { id: 'fujisan', name: 'ふじさん', emoji: '🗻', trivia: 'にほんで いちばん たかい やまだよ！きれいな かたちで せかいいさんなんだ！', themeColor: 0x4466aa, soundType: 'fujisan' },
+  { id: 'sakuramochi', name: 'さくらもち', emoji: '🍡', trivia: 'ピンクの おもちに さくらの はっぱを まいた おかしだよ。はるに たべるよ！', themeColor: 0xff88aa, soundType: 'sakuramochi' },
+  { id: 'koinobori', name: 'こいのぼり', emoji: '🎏', trivia: 'こどもの ひに そらに およぐ こいの かたちの のぼりだよ。げんきに そだてと いう ねがいが こもっているよ！', themeColor: 0x2266cc, soundType: 'koinobori' },
+  { id: 'daruma', name: 'だるま', emoji: '🔴', trivia: 'ねがいごとを するときに かたほうの めを いれるよ。かなったら もうかたほうも いれるんだ！', themeColor: 0xcc2211, soundType: 'daruma' },
+  { id: 'chochin', name: 'ちょうちん', emoji: '🏮', trivia: 'おまつりや おみせの まえに ある あかい あかりだよ。ふんいきが でるね！', themeColor: 0xee4422, soundType: 'chochin' },
+  { id: 'manekiNeko', name: 'まねきねこ', emoji: '🐱', trivia: 'てを あげて おきゃくさんを まねいている ねこの おきものだよ。おかねが たまるって いわれているよ！', themeColor: 0xffffff, soundType: 'manekiNeko' },
+];
+
 /** 全図鑑データ（カテゴリID → エントリ配列） */
 export const ALL_ENCYCLOPEDIA: Record<string, EncyclopediaEntry[]> = {
   vehicles: VEHICLE_ENCYCLOPEDIA,
@@ -80,6 +104,8 @@ export const ALL_ENCYCLOPEDIA: Record<string, EncyclopediaEntry[]> = {
   instruments: INSTRUMENTS_ENCYCLOPEDIA,
   dinosaurs: DINOSAURS_ENCYCLOPEDIA,
   insects: INSECTS_ENCYCLOPEDIA,
+  animals: ANIMALS_ENCYCLOPEDIA,
+  japan: JAPAN_ENCYCLOPEDIA,
 };
 
 /** 全エントリをフラットに取得 */
