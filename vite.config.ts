@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  base: '/kids-crane-catch2/',
+  base: '/kids-crane-catch/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

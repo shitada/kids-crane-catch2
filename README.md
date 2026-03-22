@@ -2,7 +2,7 @@
 
 5〜10歳向けの3Dクレーンキャッチャー（UFOキャッチャー）ゲーム。クレーンを操作して、いろんな のりものを あつめよう！
 
-🎮 プレイはこちら → [https://shitada.github.io/kids-crane-catch2/](https://shitada.github.io/kids-crane-catch2/)
+🎮 プレイはこちら → [https://shitada.github.io/kids-crane-catch/](https://shitada.github.io/kids-crane-catch/)
 
 iPad Safari での横向きプレイに最適化されています。
 
